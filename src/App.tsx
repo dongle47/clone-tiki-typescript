@@ -1,11 +1,14 @@
 import React from "react";
-import { Counter } from "./features/counter/Counter";
-import "./App.css";
+
+import { Header, Footer } from "components/Common";
+import Home from "pages/Home";
 
 function App() {
   return (
     <div className="App">
-      <Counter />
+      <Header />
+      <Home />
+      <Footer />
     </div>
   );
 }
