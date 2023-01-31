@@ -10,45 +10,38 @@ import { Stack, Button, Typography, Badge, Box, Modal } from "@mui/material";
 
 import "./Header.scss";
 
-// import Login from "../Login";
-// import SignUp from "../SignUp";
+// import Login from "../../pages/Home/Login";
+// import SignUp from "../../pages/Home/SignUp";
 // import Search from "../Search";
-// import ForgetPassword from "../ForgetPassword";
+// import ForgetPassword from "../../pages/Home/ForgetPassword";
 
 // import { addItem } from "../../slices/searchSlice";
 // import { logoutSuccess } from "../../slices/authSlice";
-
-// import apiProduct from "../../apis/apiProduct";
-// import apiHome from "../../apis/apiHome";
 
 import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
+
+import productApi from "../../../api/productApi";
 
 const privatePath = ["/customer/", "/admin/", "/payment"];
 
-export interface IHeaderProps {}
+export interface IAppProps {}
 
-export function Header(props: IHeaderProps) {
-  // const navigate = useNavigate();
-
-  // const location = useLocation();
+export function Header(props: IAppProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
 
+  // const searchedItems = useSelector((state: any) => state.search.items);
   const searchedItems = "";
-  // const searchedItems = useSelector((state) => state.search.items);
 
   const [searchText, setSearchText] = useState("");
 
   const [suggestions, setSuggestions] = useState([]);
 
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
-
-  const [trendingSearch, setTrendingSearch] = useState([]);
-
-  const [categorySpecify, setCategorySpecify] = useState([]);
 
   const handleSubmitSearch = () => {
     // dispatch(removeAll());
@@ -57,57 +50,21 @@ export function Header(props: IHeaderProps) {
       slug: searchText.replace(/\s/g, "-"),
     };
     handleSaveSearch(obj);
-    // navigate(`search/${obj.slug}`);
+    navigate(`search/${obj.slug}`);
   };
 
-  // useEffect(() => {
-  //   const getSuggestions = async () => {
-  //     apiProduct.getProducts().then((res) => {
-  //       const sugg = res.map((item) => ({
-  //         id: item.id,
-  //         text: item.name,
-  //         slug: item.slug,
-  //         lowerCaseName: item.name.toLowerCase(),
-  //       }));
-
-  //       setSuggestions(sugg);
-  //     });
-  //   };
-
-  //   const getTrendingSearch = async () => {
-  //     apiProduct.getProducts().then((res) => {
-  //       const products = res.map((item) => ({
-  //         id: item.id,
-  //         name: item.name,
-  //         imgUrl: item.image,
-  //       }));
-
-  //       var randomIndex = [];
-  //       let i = 0;
-  //       while (i < 6) {
-  //         const number = Math.floor(Math.random() * 188);
-  //         if (randomIndex.includes(number) === false) {
-  //           randomIndex.push(number);
-
-  //           setTrendingSearch((prev) => [...prev, products[number]]);
-  //           i++;
-  //         }
-  //       }
-  //     });
-  //   };
-
-  //   const getDataCategorySpecify = async () => {
-  //     let param = {};
-  //     const response = await apiHome.getCategorySpecify(param);
-  //     if (response) {
-  //       setCategorySpecify(response);
-  //     }
-  //   };
-
-  //   getSuggestions();
-  //   getTrendingSearch();
-  //   getDataCategorySpecify();
-  // }, []);
+  useEffect(() => {
+    const getSuggestions = async () => {
+      let param = {
+        // page: 1,
+        size: 100,
+      };
+      // await productApi.getProducts(param).then((res) => {
+      //   setSuggestions(res.products);
+      // });
+    };
+    getSuggestions();
+  }, []);
 
   var englishText = /^[A-Za-z0-9]*$/;
 
@@ -116,24 +73,29 @@ export function Header(props: IHeaderProps) {
   };
 
   useEffect(() => {
-    const checkIsVNese = () => {
-      for (const item of searchText.replace(/\s/g, "")) {
-        if (englishText.test(item) === false) {
-          return true;
+    if (searchText) {
+      const checkIsVNese = () => {
+        for (const item of searchText.replace(/\s/g, "")) {
+          if (englishText.test(item) === false) {
+            return true;
+          }
+          return false;
         }
-        return false;
+      };
+
+      const filter = suggestions.filter((item: any) =>
+        item.slug.includes(searchText.replace(/\s/g, "-"))
+      );
+
+      const filterVN = suggestions.filter((item: any) =>
+        item.name.includes(searchText)
+      );
+
+      if (checkIsVNese() === true) {
+        setFilteredSuggestions(filterVN);
+      } else {
+        setFilteredSuggestions(filter);
       }
-    };
-    const filter = suggestions.filter((item: any) =>
-      item.slug.includes(searchText.replace(/\s/g, "-"))
-    );
-    const filterVN = suggestions.filter((item: any) =>
-      item.lowerCaseName.includes(searchText)
-    );
-    if (checkIsVNese() === true) {
-      setFilteredSuggestions(filterVN);
-    } else {
-      setFilteredSuggestions(filter);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchText]);
@@ -147,11 +109,11 @@ export function Header(props: IHeaderProps) {
 
   const [focusSearch, setFocusSearch] = useState(false);
 
+  // const cart = useSelector((state: any) => state.cart.items);
   const cart = "";
-  // const cart = useSelector((state) => state.cart.items);
 
-  // const user = useSelector((state) => state.auth.user); //lấy user từ store
-  const user = ""; //lấy user từ store
+  const user = "";
+  // const user = useSelector((state: any) => state.auth.user); //lấy user từ store
 
   const handleSaveSearch = (data: any) => {
     // dispatch(addItem(data));
@@ -159,13 +121,13 @@ export function Header(props: IHeaderProps) {
 
   const handleLogout = () => {
     // dispatch(logoutSuccess());
-    // const isPrivate =
-    //   privatePath.findIndex((e) => location.pathname.includes(e)) >= 0
-    //     ? true
-    //     : false;
-    // if (isPrivate) {
-    //   navigate("/");
-    // }
+    const isPrivate =
+      privatePath.findIndex((e) => location.pathname.includes(e)) >= 0
+        ? true
+        : false;
+    if (isPrivate) {
+      navigate("/");
+    }
   };
 
   const closeModalLogin = () => {
@@ -188,7 +150,7 @@ export function Header(props: IHeaderProps) {
     setIsRegister(false);
   }, []);
 
-  const handleOpenSignup = useCallback(() => {
+  const handleOpenSignUp = useCallback(() => {
     setIsRegister(true);
     setIsForgetPwd(false);
     setIsLoginForm(false);
@@ -268,8 +230,6 @@ export function Header(props: IHeaderProps) {
 
             {/* {focusSearch && (
               <Search
-                trendingCategory={categorySpecify}
-                trendingSearch={trendingSearch}
                 handleSaveSearch={handleSaveSearch}
                 setSearchText={setSearchText}
                 suggestions={filteredSuggestions}
@@ -311,7 +271,7 @@ export function Header(props: IHeaderProps) {
           >
             {user ? (
               <>
-                {/* <img alt="" src={user.img} /> */}
+                {/* <img alt="" src={user.avatar} /> */}
 
                 <Stack>
                   <Typography sx={{ fontSize: "11px" }}>Tài khoản</Typography>
@@ -324,7 +284,9 @@ export function Header(props: IHeaderProps) {
                       className="text-overflow-1-lines"
                       sx={{ fontSize: "13px", textAlign: "start" }}
                     >
-                      {/* {user.fullName} */}
+                      {/* {user.fullName === ""
+                        ? "Cập nhật thông tin"
+                        : user.fullName} */}
                     </Typography>
                   </Button>
                 </Stack>
@@ -410,21 +372,6 @@ export function Header(props: IHeaderProps) {
               <Typography fontSize="12px">Giỏ hàng</Typography>
             </Stack>
           </Link>
-
-          <a href="/admin">
-            <Button
-              sx={{
-                color: "white",
-                borderRadius: "50px",
-                padding: "0.25rem 1rem ",
-                fontSize: "small",
-              }}
-              variant="contained"
-              startIcon={<StorefrontOutlinedIcon />}
-            >
-              <Typography fontSize="10px">Admin</Typography>
-            </Button>
-          </a>
         </Stack>
       </Stack>
 
@@ -436,7 +383,7 @@ export function Header(props: IHeaderProps) {
         <Box className="modal-login" sx={{ width: "800px" }}>
           {/* {isLoginForm && (
             <Login
-              handleOpenSignup={handleOpenSignup}
+              handleOpenSignUp={handleOpenSignUp}
               closeModalLogin={closeModalLogin}
               handleOpenForgetPwd={handleOpenForgetPwd}
             />

@@ -10,7 +10,7 @@ export const orderTabs = [
     {
         id: 0,
         type: "Tất cả",
-        icon:""
+        icon: ""
     },
     {
         id: 1,
