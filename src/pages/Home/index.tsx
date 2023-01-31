@@ -12,6 +12,7 @@ import "swiper/css/navigation";
 
 // import apiHome from "../../apis/apiHome";
 import productApi from "../../api/productApi";
+import { Product, ResponseProduct } from "models";
 
 // import Loading from "../../components/Loading";
 
@@ -22,7 +23,7 @@ import productApi from "../../api/productApi";
 export interface IHomeProps {}
 
 export default function Home(props: IHomeProps) {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   const [quickLink, setQuickLink] = useState([]);
 
@@ -42,12 +43,12 @@ export default function Home(props: IHomeProps) {
         size: size,
       };
 
-      // productApi
-      //   .getAll(param)
-      //   .then((res) => {
-      //     setProducts((pre) => [...pre, ...res.products]);
-      //   })
-      //   .finally(() => setLoadingShowMore(false));
+      productApi
+        .getPaginate(param)
+        .then((res: ResponseProduct) => {
+          setProducts((pre) => [...pre, ...res.products]);
+        })
+        .finally(() => setLoadingShowMore(false));
     };
 
     getData();

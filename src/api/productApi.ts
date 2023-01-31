@@ -1,4 +1,4 @@
-import { ProductParams } from './../models/common';
+import { ProductParams, ResponseProduct } from './../models/common';
 import axiosClient from "./axiosClient";
 
 
@@ -7,8 +7,9 @@ const productApi = {
         return axiosClient.get('/products/all')
     },
 
-    getPaginate(params:ProductParams){
-        return axiosClient.get('/products', {params})
+    getPaginate: async(params:ProductParams) => {
+        const res = await axiosClient.get('/products', {params})
+        return res.data
     },
 
     getBySlug(slug: string){

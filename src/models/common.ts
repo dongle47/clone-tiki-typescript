@@ -1,3 +1,4 @@
+import { Product } from "./product";
 
 export interface ProductParams{
     page?: number;
@@ -6,7 +7,7 @@ export interface ProductParams{
 
 export interface ResponseProduct{
     totalItems: number;
-    products: "",
+    products: Product[],
     totalPages: number,
     currentPage: number,
 
