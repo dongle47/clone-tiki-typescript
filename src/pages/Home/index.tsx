@@ -13,8 +13,7 @@ import "swiper/css/navigation";
 // import apiHome from "../../apis/apiHome";
 import productApi from "../../api/productApi";
 import { Product, ResponseProduct } from "models";
-
-// import Loading from "../../components/Loading";
+import { CardProduct, Loading } from "../../components/Common";
 
 // import SliderThuongHieu from "./SliderThuongHieu";
 // import SliderKhuyenMai from "./SliderKhuyenMai";
@@ -206,11 +205,11 @@ export default function Home(props: IHomeProps) {
 
         <Box id="section9">
           <Grid container>
-            {/* {products.map((item) => (
+            {products.map((item) => (
               <Grid key={`product-${item.id}`} item lg={2} md={4} sm={6} xs={6}>
                 <CardProduct data={item} />
               </Grid>
-            ))} */}
+            ))}
           </Grid>
           <Stack direction="row" justifyContent="center" mt={2}>
             <Button
@@ -219,7 +218,7 @@ export default function Home(props: IHomeProps) {
               variant="outlined"
               onClick={handleLoadMore}
             >
-              {/* {loadingShowMore && <Loading />} */}
+              {loadingShowMore && <Loading />}
               Xem thêm
             </Button>
           </Stack>

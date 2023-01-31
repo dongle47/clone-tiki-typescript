@@ -17,6 +17,7 @@ export interface Product {
     rate: number;
     price: number;
     discount: number;
+    slug: string;
     sold: number;
     details: DetailProduct;
 }
