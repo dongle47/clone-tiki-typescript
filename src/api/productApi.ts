@@ -12,8 +12,9 @@ const productApi = {
         return res.data
     },
 
-    getBySlug(slug: string){
-        return axiosClient.get(`/products/${slug}`)
+    getBySlug: async (slug: string) => {
+        const res = await axiosClient.get(`/products/${slug}`)
+        return res.data[0]
     }
 }
 

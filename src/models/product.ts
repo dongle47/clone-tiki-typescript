@@ -5,9 +5,10 @@ export interface Category{
 
 export interface DetailProduct{
     category: Category;
-    images: String[];
+    images: string[];
     options: any;
-    specifications: any
+    specifications: any;
+    description: any;
 }
 
 export interface Product {
