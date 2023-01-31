@@ -8,7 +8,7 @@ import { DebounceInput } from "react-debounce-input";
 
 import { Stack, Button, Typography, Badge, Box, Modal } from "@mui/material";
 
-import "./styleHeader.scss";
+import "./Header.scss";
 
 // import Login from "../Login";
 // import SignUp from "../SignUp";
