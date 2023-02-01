@@ -23,11 +23,13 @@ const cartSlice = createSlice({
             let newItem = action.payload
             let items = [...state]
             const indexItem = items.findIndex(item=>item.id===newItem.id)
+
             if(indexItem >= 0){
                 items[indexItem].quantity += newItem.quantity
             }
             else
                 items.unshift(newItem)
+
             state = [...items]
         },
         removeItem:(state,action)=>{

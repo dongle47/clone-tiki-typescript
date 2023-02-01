@@ -31,6 +31,7 @@ import { toast } from "react-toastify";
 import { Product } from "models";
 
 import SliderImage from "./SliderImage";
+import { cartActions } from "features/cart/cartSlice";
 
 // import apiUser from "../../apis/apiUser";
 
@@ -130,19 +131,22 @@ export default function DetailProduct(props: IDetailProductProps) {
     setModelSlider(false);
   };
 
-  const handleClickBuy = () => {
-    // dispatch(
-    //   addItem({
-    //     choose: false,
-    //     id: product.id,
-    //     name: product.name,
-    //     slug: product.slug,
-    //     image: product.image,
-    //     price: product.price,
-    //     quantity,
-    //   })
-    // );
-    // toast.success("Đã thêm vào giỏ hàng");
+  const handleAddCart = () => {
+    if (product) {
+      dispatch(
+        cartActions.addItem({
+          choose: false,
+          id: product.id,
+          name: product.name,
+          slug: product.slug,
+          image: product.image,
+          price: product.price,
+          quantity,
+        })
+      );
+    }
+
+    toast.success("Đã thêm vào giỏ hàng");
   };
 
   const onChangeQuantity = (e: any) => {
@@ -220,6 +224,7 @@ export default function DetailProduct(props: IDetailProductProps) {
                     <>
                       {index < 5 ? (
                         <Box
+                          key={index}
                           onClick={() => onChangeimg(index)}
                           className={`detailProduct__item-img ${
                             indexImg === index ? "selected" : ""
@@ -366,7 +371,7 @@ export default function DetailProduct(props: IDetailProductProps) {
               <Box>
                 <Button
                   variant="contained"
-                  onClick={handleClickBuy}
+                  onClick={handleAddCart}
                   sx={{
                     width: "400px",
                     height: "48px",
