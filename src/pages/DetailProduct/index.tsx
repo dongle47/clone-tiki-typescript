@@ -141,7 +141,7 @@ export default function DetailProduct(props: IDetailProductProps) {
           slug: product.slug,
           image: product.image,
           price: product.price,
-          quantity,
+          quantity: quantity,
         })
       );
     }

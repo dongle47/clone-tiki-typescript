@@ -4,16 +4,39 @@ import counterReducer from '../features/counter/counterSlice';
 import cartReducer from 'features/cart/cartSlice';
 import rootSaga from './rootSaga';
 
+
+
+import { persistStore, persistReducer, FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER, } from 'redux-persist'
+
+import storage from 'redux-persist/lib/storage'
+
+const sagaMiddleware = createSagaMiddleware();
+
+const persistConfig = {
+  key: 'root',
+  version: 1,
+  storage,
+}
+
 const rootReducer = combineReducers({
   counter: counterReducer,
   cart: cartReducer,
 });
 
-const sagaMiddleware = createSagaMiddleware();
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware)
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }).concat(sagaMiddleware)
 });
 
 sagaMiddleware.run(rootSaga)
@@ -26,3 +49,5 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+export let persistor = persistStore(store)
