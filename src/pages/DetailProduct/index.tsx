@@ -63,8 +63,6 @@ export default function DetailProduct(props: IDetailProductProps) {
     getProduct();
   }, [slug]);
 
-  console.log(product);
-
   //   useEffect(() => {
   //     const checkFavorite = async () => {
   //       await apiUser

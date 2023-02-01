@@ -1,5 +1,8 @@
+import { RootState } from './../../app/store';
 import { createSlice } from '@reduxjs/toolkit';
 
+const findIndexItem = (arr: any,item:any)=>arr.findIndex((e:any)=>e.id===item.id) 
+const delItems = (arr: any,item:any)=>arr.filter((e:any)=>e.id!==item.id)
 export interface CartItem {
     choose: boolean;
     id: string;
@@ -45,7 +48,7 @@ const cartSlice = createSlice({
         chooseAll:(state,action)=>{
             state= state.map(item => {return {...item,choose:true}})
         },
-        unchooseAll:(state,action)=>{
+        unChooseAll:(state,action)=>{
             state= state.map(item=>{return {...item,choose:false}})
         },
         deleteAll:(state,action)=>{
@@ -57,12 +60,12 @@ const cartSlice = createSlice({
     }
 })
 
-const findIndexItem = (arr: any,item:any)=>arr.findIndex((e:any)=>e.id===item.id) 
-const delItems = (arr: any,item:any)=>arr.filter((e:any)=>e.id!==item.id)
 // actions
 export const cartActions = cartSlice.actions
 
 // selectors
-// export const selectCart = (state) => state
+export const selectCart = (state:RootState) => state.cart
 
 // reducers
+const cartReducer = cartSlice.reducer
+export default cartReducer
