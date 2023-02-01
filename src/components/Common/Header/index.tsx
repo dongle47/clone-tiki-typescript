@@ -24,6 +24,8 @@ import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 import productApi from "../../../api/productApi";
+import { useAppSelector } from "app/hooks";
+import { selectCart } from "features/cart/cartSlice";
 
 const privatePath = ["/customer/", "/admin/", "/payment"];
 
@@ -110,7 +112,7 @@ export function Header(props: IAppProps) {
   const [focusSearch, setFocusSearch] = useState(false);
 
   // const cart = useSelector((state: any) => state.cart.items);
-  const cart = "";
+  const cart = useAppSelector(selectCart);
 
   const user = "";
   // const user = useSelector((state: any) => state.auth.user); //lấy user từ store
