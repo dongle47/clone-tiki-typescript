@@ -18,7 +18,7 @@ import { cartActions, selectCart } from "./cartSlice";
 import { useNavigate } from "react-router-dom";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
-import moduleName from "module";
+import { numWithCommas } from "../../utils";
 
 import CardItem from "./CardItem";
 
@@ -29,8 +29,6 @@ export default function Cart(props: ICartProps) {
   const navigate = useNavigate();
 
   const CartItems = useAppSelector(selectCart);
-
-  console.log("cart item", CartItems);
 
   // const user = useSelector((state) => state.auth.user);
 
@@ -79,7 +77,7 @@ export default function Cart(props: ICartProps) {
   };
 
   const handleDeleteAll = () => {
-    dispatch(cartActions.deleteAll);
+    dispatch(cartActions.deleteAll({}));
     closeDialogDeleteAll();
   };
 
@@ -150,9 +148,9 @@ export default function Cart(props: ICartProps) {
             </Box>
           </Grid>
 
-          {/* <Grid item lg={3} md={12} sm={12} xs={12}>
+          <Grid item lg={3} md={12} sm={12} xs={12}>
             <Box className="cart__address">
-              <Stack direction="row" mb={1.5} justifyContent="space-between">
+              {/* <Stack direction="row" mb={1.5} justifyContent="space-between">
                 <Typography
                   style={{ fontSize: "16px", fontWeight: 500, color: "#888" }}
                 >
@@ -165,9 +163,9 @@ export default function Cart(props: ICartProps) {
                 >
                   Thay đổi
                 </Typography>
-              </Stack>
+              </Stack> */}
 
-              {user ? (
+              {/* {user ? (
                 addressShip && (
                   <>
                     <Typography mb={0.25} fontWeight={500}>
@@ -181,7 +179,7 @@ export default function Cart(props: ICartProps) {
                 <Typography mb={0.25} fontWeight={500}>
                   Vui lòng đăng nhập để chọn địa chỉ
                 </Typography>
-              )}
+              )} */}
             </Box>
 
             <Box>
@@ -196,7 +194,7 @@ export default function Cart(props: ICartProps) {
 
               <Button
                 variant="contained"
-                onClick={handleBuy}
+                // onClick={handleBuy}
                 sx={{
                   width: "100%",
                   height: "42px",
@@ -207,7 +205,7 @@ export default function Cart(props: ICartProps) {
                 Mua hàng ({CartItems.filter((item) => item.choose).length})
               </Button>
             </Box>
-          </Grid> */}
+          </Grid>
         </Grid>
       </Box>
 
@@ -228,11 +226,11 @@ export default function Cart(props: ICartProps) {
             <Box className="dialog-removecart__content">
               Bạn có muốn xóa tất cả sản phẩm trong giỏ hàng
             </Box>
-            <Box className="dialog-removecart__choose">
+            <Box sx={{ padding: "0px" }} className="dialog-removecart__choose">
               <Button
+                sx={{ height: "36px" }}
                 variant="outlined"
                 onClick={handleDeleteAll}
-                sx={{ width: "94px", height: "36px" }}
               >
                 Xác nhận
               </Button>
