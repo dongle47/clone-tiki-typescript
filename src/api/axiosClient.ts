@@ -1,5 +1,3 @@
-import { selectAccessToken } from 'features/auth/authSlice';
-import { useAppSelector } from 'app/hooks';
 import axios from 'axios';
 
 const baseURL = 'https://api-clone-tiki.vercel.app/api'

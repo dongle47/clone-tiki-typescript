@@ -1,16 +1,20 @@
 import { useAppSelector } from "app/hooks";
-import { selectUser } from "features/auth/authSlice";
+import { selectAccessToken, selectUser } from "features/auth/authSlice";
 import { useEffect, useState } from "react";
 
 import { Typography, Button, Stack, Box, Dialog } from "@mui/material";
 import { Link } from "react-router-dom";
 import EmptyNotify from "components/Common/EmptyNotify";
 import AddIcon from "@mui/icons-material/Add";
+import addressApi from "api/addressApi";
+
+import "./Addresses.scss";
 
 export interface IAddressProps {}
 
 export default function Address(props: IAddressProps) {
   const user = useAppSelector(selectUser);
+  const accessToken = useAppSelector(selectAccessToken);
 
   const [itemDelete, setItemDelete] = useState(null);
   const [addresses, setAddresses] = useState([]);
@@ -19,12 +23,14 @@ export default function Address(props: IAddressProps) {
   //get addresses
   useEffect(() => {
     const getData = async () => {
-      //   await apiAddress
-      //     .getAddressByUser(user.accessToken, user.id)
-      //     .then((res) => {
-      //       setAddresses(res);
-      //     })
-      //     .catch((err) => console.log("error", err));
+      if (user) {
+        await addressApi
+          .getAddressByUser(accessToken, user.id)
+          .then((res) => {
+            setAddresses(res);
+          })
+          .catch((err) => console.log("error", err));
+      }
     };
     getData();
   }, [addresses]);
@@ -56,7 +62,7 @@ export default function Address(props: IAddressProps) {
   return (
     <Stack spacing={2} className="addresses">
       <Typography className="heading">Sổ địa chỉ</Typography>
-      <Link to="/customer/address/create">
+      <Link to="/profile/address/create">
         <Button className="new" variant="outlined" startIcon={<AddIcon />}>
           Thêm địa chỉ mới
         </Button>

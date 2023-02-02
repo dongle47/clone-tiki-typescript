@@ -23,6 +23,8 @@ import {
 } from "@mui/material";
 
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import CreateAddress from "./Addresses/CreateAddress";
+import Address from "./Addresses";
 
 // import Info from "./Info/index";
 // import Password from "./Info/Password";
@@ -75,7 +77,97 @@ export default function Profile(props: IProfileProps) {
       "Tiki - Mua hàng online, giá tốt, hàng chuẩn, ship nhanh";
   }, [selectedTabId]);
 
-  return <div>Profile</div>;
+  return (
+    <Box className="container">
+      {/* <Breadcrumbs
+        separator={<NavigateNextIcon fontSize="small" />}
+        aria-label="breadcrumb"
+        p="16px 16px 8px"
+        fontSize="14px"
+      >
+        {breadcrumbs}
+      </Breadcrumbs> */}
+
+      <Box className="customer-account">
+        <Box width="16rem">
+          <List sx={{ maxWidth: "300px" }}>
+            {sidebarTab.map((item, index) => {
+              return (
+                <Link key={item.id} to={item.link}>
+                  <ListItem
+                    disablePadding
+                    onClick={() => setSelectedTabId(item.id)}
+                    selected={selectedTabId === item.id}
+                  >
+                    <ListItemButton>
+                      <ListItemIcon>{<item.icon />}</ListItemIcon>
+
+                      <ListItemText
+                        primary={item.text}
+                        sx={{ "&>span": { fontSize: "13px" } }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              );
+            })}
+          </List>
+        </Box>
+        <Box flex={1} mt="16px">
+          {/* <Outlet /> */}
+          <Routes>
+            <Route
+              path="account/edit/*"
+              element={
+                <Routes>
+                  {/* <Route index element={<Info />} />
+                  <Route path="pass" element={<Password />} /> */}
+                </Routes>
+              }
+            />
+
+            <Route
+              path="order/*"
+              element={
+                <Routes>
+                  {/* <Route path="history" element={<Orders />} />
+                  <Route path="detail/:id" element={<DetailOrder />} /> */}
+                </Routes>
+              }
+            />
+
+            <Route
+              path="address/*"
+              element={
+                <Routes>
+                  <Route index element={<Address />} />
+
+                  <Route
+                    path="create"
+                    element={<CreateAddress edit={false} />}
+                  />
+
+                  <Route
+                    path="edit/:addressId"
+                    element={<CreateAddress edit={true} />}
+                  ></Route>
+                </Routes>
+              }
+            />
+
+            {/* <Route
+              path="/nhan-xet-san-pham-ban-da-mua"
+              element={<ReviewPurchased />}
+            />
+
+            <Route path="/wishlist" element={<WishList />} />
+
+            <Route path="/review" element={<MyReview />} /> */}
+          </Routes>
+        </Box>
+      </Box>
+    </Box>
+  );
 }
 
 const sidebarTab = [
