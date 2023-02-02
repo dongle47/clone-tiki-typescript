@@ -10,5 +10,4 @@ export interface ResponseProduct{
     products: Product[],
     totalPages: number,
     currentPage: number,
-
 }
