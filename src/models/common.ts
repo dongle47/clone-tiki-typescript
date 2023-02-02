@@ -17,3 +17,9 @@ export interface ResponseLogin{
     user: User;
     accessToken: string
 }
+
+export interface TokenDecode{
+    id: string;
+    exp: number;
+    
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.scss";
 
-import { Header, Footer } from "components/Common";
+import { Header, Footer, AuthVerify } from "components/Common";
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "router/AppRoutes";
 import ScrollToTop from "./components/ScrollToTop";
@@ -13,6 +13,8 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <AuthVerify />
+
         <ScrollToTop />
 
         <Header />

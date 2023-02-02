@@ -4,9 +4,6 @@ import {
   ErrorInput,
   ErrorAfterSubmit,
 } from "../../../components/Common/ErrorHelper";
-import { useDispatch } from "react-redux";
-
-// import apiAuth from "../../apis/apiAuth";
 
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 
@@ -50,10 +47,7 @@ export default function Login(props: ILoginProps) {
   const [isShowPass, setIsShowPass] = React.useState(false);
   const [messageError, setMessageError] = React.useState("");
 
-  // const [loading, setLoading] = useState(false);
   const loading = useAppSelector(selectLogging);
-
-  console.log("loading", loading);
 
   const onSubmit = async (data: any) => {
     dispatch(authActions.login());
