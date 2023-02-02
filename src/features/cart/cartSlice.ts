@@ -31,13 +31,11 @@ const cartSlice = createSlice({
             else
                 items.unshift(newItem)
 
-            state = [...items]
-            return state
+            return [...items]
         },
         removeItem:(state,action)=>{
             const itemUpdate = action.payload
-            state = delItems(state,itemUpdate)
-            return state
+            return delItems(state,itemUpdate)
         },
         updateItem:(state,action)=>{
             const itemUpdate = action.payload
@@ -52,20 +50,17 @@ const cartSlice = createSlice({
             return state
         },
         chooseAll:(state,action)=>{
-            state= state.map(item => {return {...item,choose:true}})
-            return state
+            return state.map(item => {return {...item,choose:true}})
         },
         unChooseAll:(state,action)=>{
-            state= state.map(item=>{return {...item,choose:false}})
-            return state
+            return state.map(item=>{return {...item,choose:false}})
         },
         deleteAll:(state,action)=>{
-            state = []
-            return state
+            return []
         },
         deleteItemsAfterPayment:(state,action)=>{
-            state= state.filter(item=>!item.choose)
-            return state
+            return state.filter(item=>!item.choose)
+            // return state
         }
     }
 })

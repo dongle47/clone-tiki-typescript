@@ -1,5 +1,6 @@
+import { ResponseLogin } from './../../models/common';
 import { RootState } from './../../app/store';
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { User } from 'models';
 
 export interface AuthState{
@@ -18,7 +19,23 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers:{
+        login(state){
+            state.logging = true
+        },
+        loginSuccess(state, action:PayloadAction<ResponseLogin>){
+            state.logging = false
+            state.user = action.payload.user
+            state.accessToken = action.payload.accessToken
+        },
+        loginFailed(state){
+            state.logging = false
+        },
 
+        logout(state){
+            state.logging = false
+            state.accessToken = ""
+            state.user = null
+        }
     }
 })
 
