@@ -28,6 +28,8 @@ import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 import { toast } from "react-toastify";
+import authApi from "api/authApi";
+import { Loading } from "components/Common";
 
 export interface IRegisterProps {
   handleOpenLogin: () => void;
@@ -41,6 +43,7 @@ export default function Register(props: IRegisterProps) {
   const [usedPhone, setUsedPhone] = React.useState(false);
 
   const [loading, setLoading] = React.useState(false);
+
   const [isSuccess, setIsSuccess] = React.useState(false);
 
   const {
@@ -57,6 +60,7 @@ export default function Register(props: IRegisterProps) {
       );
       return;
     }
+
     setLoading(true);
 
     if (watch("pass") === watch("passConf")) {
@@ -65,16 +69,16 @@ export default function Register(props: IRegisterProps) {
         password: watch("pass"),
       };
 
-      // await apiAuth
-      //   .postRegister(param)
-      //   .then((data) => {
-      //     setUsedPhone(false);
-      //     setIsSuccess(true);
-      //   })
-      //   .catch((err) => {
-      //     setUsedPhone(true);
-      //   })
-      //   .finally(() => setLoading(false));
+      await authApi
+        .postRegister(param)
+        .then((data) => {
+          setUsedPhone(false);
+          setIsSuccess(true);
+        })
+        .catch((err) => {
+          setUsedPhone(true);
+        })
+        .finally(() => setLoading(false));
     }
   };
 
@@ -184,6 +188,7 @@ export default function Register(props: IRegisterProps) {
               variant="contained"
               color="error"
             >
+              {loading && <Loading color="#fff" />}
               Hoàn Tất
             </Button>
 
