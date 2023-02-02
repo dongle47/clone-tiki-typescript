@@ -1,5 +1,5 @@
 import { ProductParams, ResponseProduct } from './../models/common';
-import axiosClient from "./axiosClient";
+import {axiosClient} from "./axiosClient";
 
 
 const productApi = {

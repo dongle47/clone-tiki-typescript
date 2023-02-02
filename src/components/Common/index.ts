@@ -3,3 +3,4 @@ export * from './Footer';
 export * from './CardProduct';
 export * from './Loading';
 export * from './AuthVerify';
+export * from './EmptyNotify';

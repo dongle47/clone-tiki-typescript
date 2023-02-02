@@ -296,15 +296,15 @@ export function Header(props: IAppProps) {
                 </Stack>
 
                 <Box className="header__dropdown">
-                  <Link to={"/customer/order/history"}>Đơn hàng của tôi</Link>
+                  <Link to={"/profile/order/history"}>Đơn hàng của tôi</Link>
 
-                  <Link to={"/customer/wishlist"}>Sản phẩm yêu thích</Link>
+                  <Link to={"/profile/wishlist"}>Sản phẩm yêu thích</Link>
 
-                  <Link to={"/customer/notification"}>Thông báo của tôi</Link>
+                  <Link to={"/profile/notification"}>Thông báo của tôi</Link>
 
-                  <Link to={"/customer/account/edit"}>Tài khoản của tôi</Link>
+                  <Link to={"/profile/account/edit"}>Tài khoản của tôi</Link>
 
-                  <Link to="/customer/coupons">
+                  <Link to="/profile/coupons">
                     <Stack direction="row" spacing={1} alignItems="center">
                       <img
                         className="header__dropdown-img"
