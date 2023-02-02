@@ -26,6 +26,8 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import productApi from "../../../api/productApi";
 import { useAppSelector } from "app/hooks";
 import { selectCart } from "features/cart/cartSlice";
+import Register from "features/auth/pages/Register";
+import Login from "features/auth/pages/Login";
 
 const privatePath = ["/customer/", "/admin/", "/payment"];
 
@@ -383,27 +385,28 @@ export function Header(props: IAppProps) {
         onClose={closeModalLogin}
       >
         <Box className="modal-login" sx={{ width: "800px" }}>
-          {/* {isLoginForm && (
+          {isLoginForm && (
             <Login
               handleOpenSignUp={handleOpenSignUp}
               closeModalLogin={closeModalLogin}
-              handleOpenForgetPwd={handleOpenForgetPwd}
+              // handleOpenForgetPwd={handleOpenForgetPwd}
             />
           )}
 
           {isRegister && (
-            <SignUp
+            <Register
               handleOpenLogin={handleOpenLogin}
               closeModalLogin={closeModalLogin}
             />
           )}
 
           {isForgetPwd && (
-            <ForgetPassword
-              closeModalForgetPWD={closeModalForgetPWD}
-              handleReturnLogin={handleReturnLogin}
-            />
-          )} */}
+            // <ForgetPassword
+            //   closeModalForgetPWD={closeModalForgetPWD}
+            //   handleReturnLogin={handleReturnLogin}
+            // />
+            <></>
+          )}
         </Box>
       </Modal>
     </header>
