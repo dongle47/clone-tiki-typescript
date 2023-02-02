@@ -29,6 +29,9 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { toast } from "react-toastify";
 import { Loading } from "components/Common";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { authActions, selectLogging } from "../authSlice";
+import authApi from "api/authApi";
 
 export interface ILoginProps {
   closeModalLogin: () => void;
@@ -36,7 +39,7 @@ export interface ILoginProps {
 }
 
 export default function Login(props: ILoginProps) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -47,37 +50,38 @@ export default function Login(props: ILoginProps) {
   const [isShowPass, setIsShowPass] = React.useState(false);
   const [messageError, setMessageError] = React.useState("");
 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const loading = useAppSelector(selectLogging);
+
+  console.log("loading", loading);
 
   const onSubmit = async (data: any) => {
+    dispatch(authActions.login());
+
     if (loading) {
       toast.warning(
         "Thao tác đang thực hiện. Vui lòng không thao tác quá nhanh"
       );
       return;
     }
-    setLoading(true);
 
     let params = {
       mobile: data.phoneNumber,
       password: data.pass,
     };
 
-    // await apiAuth
-    //   .postLogin(params)
-    //   .then((res) => {
-    //     let { accessToken, user } = res;
-    //     dispatch(loginSuccess({ accessToken, ...user }));
-    //     toast.success("Đăng nhập thành công");
-    //     props.closeModalLogin();
-    //   })
-    //   .catch((error) => {
-    //     toast.error(error.response.data.message);
-    //     setMessageError(error.response.data.message);
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
+    await authApi
+      .postLogin(params)
+      .then((res) => {
+        dispatch(authActions.loginSuccess(res));
+        toast.success("Đăng nhập thành công");
+        props.closeModalLogin();
+      })
+      .catch((error) => {
+        dispatch(authActions.loginFailed());
+        toast.error(error.response.data.message);
+        setMessageError(error.response.data.message);
+      });
   };
 
   return (

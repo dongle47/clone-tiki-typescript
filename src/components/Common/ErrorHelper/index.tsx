@@ -10,7 +10,7 @@ interface IErrorHelperProps {
 export function ErrorAfterSubmit(props: IErrorHelperProps) {
   return (
     <Stack direction="row" alignItems="center" spacing={0.5}>
-      <ErrorOutlineIcon sx={{ fontSize: "3rem" }} color="error" />
+      <ErrorOutlineIcon sx={{ fontSize: "1.5rem" }} color="error" />
       <Typography variant="subtitle2" color="red">
         {props.message}
       </Typography>
