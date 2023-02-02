@@ -7,17 +7,19 @@ import { Link } from "react-router-dom";
 import EmptyNotify from "components/Common/EmptyNotify";
 import AddIcon from "@mui/icons-material/Add";
 import addressApi from "api/addressApi";
+import { toast } from "react-toastify";
 
 import "./Addresses.scss";
+import { Address } from "models/address";
 
 export interface IAddressProps {}
 
-export default function Address(props: IAddressProps) {
+export default function Addresses(props: IAddressProps) {
   const user = useAppSelector(selectUser);
   const accessToken = useAppSelector(selectAccessToken);
 
-  const [itemDelete, setItemDelete] = useState(null);
-  const [addresses, setAddresses] = useState([]);
+  const [itemDelete, setItemDelete] = useState<Address | null>(null);
+  const [addresses, setAddresses] = useState<Address[]>([]);
   const [dialogDelete, setDialogDelete] = useState(false);
 
   //get addresses
@@ -28,27 +30,29 @@ export default function Address(props: IAddressProps) {
           .getAddressByUser(accessToken, user.id)
           .then((res) => {
             setAddresses(res);
+            console.log(res);
           })
           .catch((err) => console.log("error", err));
       }
     };
     getData();
-  }, [addresses]);
+  }, []);
 
   const handleDelete = () => {
-    // const newAddress = addresses.filter(
-    //   (item: any) => item.id !== itemDelete.id
-    // );
-    // closeDialogDeleteAll();
-    // apiAddress
-    //   .deleteAddress(user.accessToken, itemDelete._id)
-    //   .then((res) => {
-    //     setAddresses(newAddress);
-    //     toast.success("Xóa thành công");
-    //   })
-    //   .catch((error) => {
-    //     toast.error("Xóa không thành công!");
-    //   });
+    const newAddress = addresses.filter((item) => item._id !== itemDelete?._id);
+
+    closeDialogDeleteAll();
+    if (itemDelete) {
+      addressApi
+        .deleteAddress(accessToken, itemDelete?._id)
+        .then((res) => {
+          setAddresses(newAddress);
+          toast.success("Xóa thành công");
+        })
+        .catch((error) => {
+          toast.error("Xóa không thành công!");
+        });
+    }
   };
 
   const openDialogDeleteAll = (itemDelete: any) => {
@@ -71,7 +75,7 @@ export default function Address(props: IAddressProps) {
         {addresses.length === 0 ? (
           <EmptyNotify title="Bạn chưa có địa chỉ" />
         ) : (
-          addresses.map((item: any) => {
+          addresses.map((item: Address) => {
             return (
               <Stack
                 key={item._id}

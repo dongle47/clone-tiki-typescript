@@ -4,12 +4,12 @@ export interface Location{
 }
 
 export interface Address{
+    _id: string;
     fullName: string,
     phone: string,
-    province: object
-    district: object,
-    ward: object,
+    province: Location
+    district: Location,
+    ward: Location,
     detail: string,
     userId: string,
-
 }
