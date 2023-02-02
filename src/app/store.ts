@@ -14,6 +14,7 @@ import { persistStore, persistReducer, FLUSH,
   REGISTER, } from 'redux-persist'
 
 import storage from 'redux-persist/lib/storage'
+import authReducer from 'features/auth/authSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -26,6 +27,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   counter: counterReducer,
   cart: cartReducer,
+  auth: authReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

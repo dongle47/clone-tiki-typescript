@@ -1,4 +1,5 @@
 import { Product } from "./product";
+import { User } from "./user";
 
 export interface ProductParams{
     page?: number;
@@ -10,5 +11,15 @@ export interface ResponseProduct{
     products: Product[],
     totalPages: number,
     currentPage: number,
+}
 
+export interface ResponseLogin{
+    user: User;
+    accessToken: string
+}
+
+export interface TokenDecode{
+    id: string;
+    exp: number;
+    
 }

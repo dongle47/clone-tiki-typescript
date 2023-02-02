@@ -24,8 +24,11 @@ import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 import productApi from "../../../api/productApi";
-import { useAppSelector } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { selectCart } from "features/cart/cartSlice";
+import Register from "features/auth/pages/Register";
+import Login from "features/auth/pages/Login";
+import { authActions, selectUser } from "features/auth/authSlice";
 
 const privatePath = ["/customer/", "/admin/", "/payment"];
 
@@ -34,7 +37,7 @@ export interface IAppProps {}
 export function Header(props: IAppProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // const searchedItems = useSelector((state: any) => state.search.items);
   const searchedItems = "";
@@ -114,15 +117,14 @@ export function Header(props: IAppProps) {
   // const cart = useSelector((state: any) => state.cart.items);
   const cart = useAppSelector(selectCart);
 
-  const user = "";
-  // const user = useSelector((state: any) => state.auth.user); //lấy user từ store
+  const user = useAppSelector(selectUser);
 
   const handleSaveSearch = (data: any) => {
     // dispatch(addItem(data));
   };
 
   const handleLogout = () => {
-    // dispatch(logoutSuccess());
+    dispatch(authActions.logout());
     const isPrivate =
       privatePath.findIndex((e) => location.pathname.includes(e)) >= 0
         ? true
@@ -273,7 +275,7 @@ export function Header(props: IAppProps) {
           >
             {user ? (
               <>
-                {/* <img alt="" src={user.avatar} /> */}
+                <img alt="" src={user.avatar} />
 
                 <Stack>
                   <Typography sx={{ fontSize: "11px" }}>Tài khoản</Typography>
@@ -286,9 +288,9 @@ export function Header(props: IAppProps) {
                       className="text-overflow-1-lines"
                       sx={{ fontSize: "13px", textAlign: "start" }}
                     >
-                      {/* {user.fullName === ""
+                      {user.fullName === ""
                         ? "Cập nhật thông tin"
-                        : user.fullName} */}
+                        : user.fullName}
                     </Typography>
                   </Button>
                 </Stack>
@@ -383,27 +385,28 @@ export function Header(props: IAppProps) {
         onClose={closeModalLogin}
       >
         <Box className="modal-login" sx={{ width: "800px" }}>
-          {/* {isLoginForm && (
+          {isLoginForm && (
             <Login
               handleOpenSignUp={handleOpenSignUp}
               closeModalLogin={closeModalLogin}
-              handleOpenForgetPwd={handleOpenForgetPwd}
+              // handleOpenForgetPwd={handleOpenForgetPwd}
             />
           )}
 
           {isRegister && (
-            <SignUp
+            <Register
               handleOpenLogin={handleOpenLogin}
               closeModalLogin={closeModalLogin}
             />
           )}
 
           {isForgetPwd && (
-            <ForgetPassword
-              closeModalForgetPWD={closeModalForgetPWD}
-              handleReturnLogin={handleReturnLogin}
-            />
-          )} */}
+            // <ForgetPassword
+            //   closeModalForgetPWD={closeModalForgetPWD}
+            //   handleReturnLogin={handleReturnLogin}
+            // />
+            <></>
+          )}
         </Box>
       </Modal>
     </header>
