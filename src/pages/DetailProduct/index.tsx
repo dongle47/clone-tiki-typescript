@@ -28,25 +28,31 @@ import productApi from "../../api/productApi";
 import { numWithCommas, roundPrice } from "../../constraints/Util";
 
 import { toast } from "react-toastify";
-import { Product } from "models";
+import { Product, WishItem } from "models";
 
 import SliderImage from "./SliderImage";
 import { cartActions } from "features/cart/cartSlice";
-
-// import apiUser from "../../apis/apiUser";
+import { useAppSelector } from "app/hooks";
+import { selectUser } from "features/auth/authSlice";
+import userApi from "api/userApi";
+import {
+  selectWishList,
+  wishListActions,
+} from "features/wishList/wishListSlice";
+import { usePreviousMonthDisabled } from "@mui/x-date-pickers/internals";
 
 export interface IDetailProductProps {}
 
 export default function DetailProduct(props: IDetailProductProps) {
-  //   const user = useSelector((state) => state.auth.user);
+  const user = useAppSelector(selectUser);
 
-  const [wishList, setWishList] = useState([]);
+  const wishList = useAppSelector(selectWishList);
 
   const [product, setProduct] = useState<Product | null>(null);
 
-  const { slug } = useParams();
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { slug } = useParams();
 
   useEffect(() => {
     const getProduct = async () => {
@@ -64,52 +70,52 @@ export default function DetailProduct(props: IDetailProductProps) {
     getProduct();
   }, [slug]);
 
-  //   useEffect(() => {
-  //     const checkFavorite = async () => {
-  //       await apiUser
-  //         .getWishListByUser(user.id)
-  //         .then((res) => {
-  //           setWishList(res);
+  useEffect(() => {
+    if (slug) {
+      const isFav = wishList
+        .map((item: WishItem) => item.productSlug)
+        .includes(slug);
 
-  //           const resSlug = res.map((item) => item.productSlug);
-  //           if (resSlug.includes(slug)) {
-  //             setIsFavorite(true);
-  //           }
-  //         })
-  //         .catch((err) => console.log(err));
-  //     };
-
-  //     checkFavorite();
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, []);
+      setIsFavorite(isFav);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleClickFavorite = async () => {
-    // if (user === null) {
-    //   toast.warning("Vui lòng đăng nhập để thực hiện chức năng này");
-    // } else {
-    //   let param = {
-    //     userId: user.id,
-    //     productSlug: slug,
-    //   };
-    //   if (isFavorite === false) {
-    //     await apiUser
-    //       .postWishList(param)
-    //       .then((res) => {
-    //         setIsFavorite((prev) => !prev);
-    //         toast.success("Đã thêm vào danh sách yêu thích");
-    //       })
-    //       .catch((err) => toast.error(err));
-    //   } else {
-    //     const itemId = wishList.find((item) => item.productSlug === slug)._id;
-    //     await apiUser
-    //       .deleteWishList(itemId)
-    //       .then((res) => {
-    //         toast.info("Đã xóa khỏi danh sách yêu thích");
-    //         setIsFavorite(false);
-    //       })
-    //       .catch((err) => console.log(err));
-    //   }
-    // }
+    if (user === null) {
+      toast.warning("Vui lòng đăng nhập để thực hiện chức năng này");
+    } else if (slug) {
+      let param = {
+        userId: user.id,
+        productSlug: slug,
+      };
+      if (isFavorite === false) {
+        await userApi
+          .postWishList(param)
+          .then((res: any) => {
+            setIsFavorite((prev) => !prev);
+            userApi.getWishList(param).then((res) => {
+              dispatch(wishListActions.addWishList(res));
+            });
+
+            toast.success("Đã thêm vào danh sách yêu thích");
+          })
+          .catch((err) => toast.error(err));
+      } else {
+        const itemId = wishList?.find(
+          (item: any) => item.productSlug === slug
+        )?._id;
+
+        await userApi
+          .deleteWishList(itemId)
+          .then((res) => {
+            setIsFavorite(false);
+            dispatch(wishListActions.removeWishList(itemId));
+            toast.info("Đã xóa khỏi danh sách yêu thích");
+          })
+          .catch((err) => console.log(err));
+      }
+    }
   };
 
   const [expandContent, setExpandContent] = useState(false);

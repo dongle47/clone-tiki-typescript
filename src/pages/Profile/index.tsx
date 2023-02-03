@@ -26,6 +26,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import CreateAddress from "./Addresses/CreateAddress";
 import Addresses from "./Addresses";
 import Info from "./Info";
+import WishList from "./WishList";
 
 // import Info from "./Info/index";
 // import Password from "./Info/Password";
@@ -159,11 +160,11 @@ export default function Profile(props: IProfileProps) {
             {/* <Route
               path="/nhan-xet-san-pham-ban-da-mua"
               element={<ReviewPurchased />}
-            />
+            /> */}
 
             <Route path="/wishlist" element={<WishList />} />
 
-            <Route path="/review" element={<MyReview />} /> */}
+            {/* <Route path="/review" element={<MyReview />} /> */}
           </Routes>
         </Box>
       </Box>
