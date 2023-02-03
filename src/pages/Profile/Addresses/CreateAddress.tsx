@@ -1,5 +1,5 @@
 import locationApi from "api/locationApi";
-import { useAppSelector } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { selectAccessToken, selectUser } from "features/auth/authSlice";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -25,12 +25,14 @@ import {
 import { styled } from "@mui/material/styles";
 import addressApi from "api/addressApi";
 import { Address, Location } from "models/address";
+import { addressListActions } from "features/address/addressSlice";
 
 export interface ICreateAddressProps {
   edit: boolean;
 }
 
 export default function CreateAddress(props: ICreateAddressProps) {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const accessToken = useAppSelector(selectAccessToken);
 
@@ -166,6 +168,8 @@ export default function CreateAddress(props: ICreateAddressProps) {
           setDistrictCode("");
           setWardCode("");
           setAddressDetail("");
+
+          dispatch(addressListActions.addAddressItem(params));
         })
         .catch((error) => {
           toast.error("Thêm địa chỉ thất bại!");
