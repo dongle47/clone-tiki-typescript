@@ -125,12 +125,12 @@ export function Header(props: IAppProps) {
 
   const handleLogout = () => {
     dispatch(authActions.logout());
+    navigate("/");
     const isPrivate =
       privatePath.findIndex((e) => location.pathname.includes(e)) >= 0
         ? true
         : false;
     if (isPrivate) {
-      navigate("/");
     }
   };
 

@@ -31,6 +31,10 @@ const authSlice = createSlice({
             state.logging = false
         },
 
+        updateSuccess(state, action){
+            state.user = action.payload.newUser
+        },
+
         logout(state){
             state.logging = false
             state.accessToken = ""
