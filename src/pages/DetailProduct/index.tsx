@@ -32,13 +32,14 @@ import { Product } from "models";
 
 import SliderImage from "./SliderImage";
 import { cartActions } from "features/cart/cartSlice";
-
-// import apiUser from "../../apis/apiUser";
+import { useAppSelector } from "app/hooks";
+import { selectUser } from "features/auth/authSlice";
+import userApi from "api/userApi";
 
 export interface IDetailProductProps {}
 
 export default function DetailProduct(props: IDetailProductProps) {
-  //   const user = useSelector((state) => state.auth.user);
+  const user = useAppSelector(selectUser);
 
   const [wishList, setWishList] = useState([]);
 
@@ -64,24 +65,26 @@ export default function DetailProduct(props: IDetailProductProps) {
     getProduct();
   }, [slug]);
 
-  //   useEffect(() => {
-  //     const checkFavorite = async () => {
-  //       await apiUser
-  //         .getWishListByUser(user.id)
-  //         .then((res) => {
-  //           setWishList(res);
+  useEffect(() => {
+    const checkFavorite = async () => {
+      if (user) {
+        await userApi
+          .getWishListByUser(user.id)
+          .then((res) => {
+            setWishList(res);
 
-  //           const resSlug = res.map((item) => item.productSlug);
-  //           if (resSlug.includes(slug)) {
-  //             setIsFavorite(true);
-  //           }
-  //         })
-  //         .catch((err) => console.log(err));
-  //     };
+            const resSlug = res.map((item: any) => item.productSlug);
+            if (resSlug.includes(slug)) {
+              setIsFavorite(true);
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    };
 
-  //     checkFavorite();
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, []);
+    checkFavorite();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleClickFavorite = async () => {
     // if (user === null) {
@@ -92,16 +95,17 @@ export default function DetailProduct(props: IDetailProductProps) {
     //     productSlug: slug,
     //   };
     //   if (isFavorite === false) {
-    //     await apiUser
+    //     await userApi
     //       .postWishList(param)
-    //       .then((res) => {
+    //       .then((res: any) => {
     //         setIsFavorite((prev) => !prev);
     //         toast.success("Đã thêm vào danh sách yêu thích");
     //       })
     //       .catch((err) => toast.error(err));
     //   } else {
-    //     const itemId = wishList.find((item) => item.productSlug === slug)._id;
-    //     await apiUser
+    //     const itemId =
+    //       wishList.find((item: any) => item.productSlug === slug)._id ?? "a";
+    //     await userApi
     //       .deleteWishList(itemId)
     //       .then((res) => {
     //         toast.info("Đã xóa khỏi danh sách yêu thích");

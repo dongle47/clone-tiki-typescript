@@ -1,3 +1,4 @@
+import { removeItem } from 'utils';
 import { RootState } from './../../app/store';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -73,5 +74,4 @@ export const selectCart = (state:RootState) => state.cart
 
 // reducers
 const cartReducer = cartSlice.reducer
-
 export default cartReducer

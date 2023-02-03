@@ -21,5 +21,10 @@ export interface ResponseLogin{
 export interface TokenDecode{
     id: string;
     exp: number;
-    
+}
+
+export interface WishItem{
+    _id: string
+    productSlug: string;
+    userId: string;
 }
