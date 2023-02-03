@@ -16,6 +16,7 @@ import { persistStore, persistReducer, FLUSH,
 import storage from 'redux-persist/lib/storage'
 import authReducer from 'features/auth/authSlice';
 import wishListReducer from 'features/wishList/wishListSlice';
+import addressReducer from 'features/address/addressSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   auth: authReducer,
   wishList: wishListReducer,
+  addressList: addressReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

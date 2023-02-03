@@ -15,9 +15,15 @@ import productApi from "../../api/productApi";
 import { Product, ResponseProduct, WishItem } from "models";
 import { CardProduct, Loading } from "../../components/Common";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { selectUser } from "features/auth/authSlice";
+import { selectAccessToken, selectUser } from "features/auth/authSlice";
 import { wishListActions } from "features/wishList/wishListSlice";
 import userApi from "api/userApi";
+import addressApi from "api/addressApi";
+import addressReducer, {
+  addressListActions,
+} from "features/address/addressSlice";
+import addressListReducer from "features/address/addressSlice";
+import { Address } from "cluster";
 
 // import SliderThuongHieu from "./SliderThuongHieu";
 // import SliderKhuyenMai from "./SliderKhuyenMai";
@@ -39,6 +45,8 @@ export default function Home(props: IHomeProps) {
   const [page, setPage] = useState(1);
 
   const user = useAppSelector(selectUser);
+
+  const accessToken = useAppSelector(selectAccessToken);
 
   const size = 18;
 
@@ -68,6 +76,15 @@ export default function Home(props: IHomeProps) {
           dispatch(wishListActions.addWishList(item));
         });
       });
+
+      addressApi
+        .getAddressByUser(accessToken, user.id)
+        .then((res: Address[]) => {
+          res.forEach((item) => {
+            dispatch(addressListActions.addAddressItem(item));
+          });
+        })
+        .catch((err) => console.log("error", err));
     }
   }, []);
 
