@@ -3,7 +3,7 @@ import { Address } from 'models/address';
 import { createSlice } from '@reduxjs/toolkit';
 
 const delItems = (arr: any, item: any)=>arr.filter((e:any)=>e._id !== item._id)
-const findIndexItem = (arr: any,item:any)=>arr.findIndex((e:any)=>e._id===item._id) 
+const findIndexItem = (arr: any,item:any)=>arr.findIndex((e:any)=>e._id===item.id) 
 
 const initialState:Address[] = []
 
