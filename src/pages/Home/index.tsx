@@ -12,8 +12,12 @@ import "swiper/css/navigation";
 
 // import apiHome from "../../apis/apiHome";
 import productApi from "../../api/productApi";
-import { Product, ResponseProduct } from "models";
+import { Product, ResponseProduct, WishItem } from "models";
 import { CardProduct, Loading } from "../../components/Common";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { selectUser } from "features/auth/authSlice";
+import { wishListActions } from "features/wishList/wishListSlice";
+import userApi from "api/userApi";
 
 // import SliderThuongHieu from "./SliderThuongHieu";
 // import SliderKhuyenMai from "./SliderKhuyenMai";
@@ -22,6 +26,8 @@ import { CardProduct, Loading } from "../../components/Common";
 export interface IHomeProps {}
 
 export default function Home(props: IHomeProps) {
+  const dispatch = useAppDispatch();
+
   const [products, setProducts] = useState<Product[]>([]);
 
   const [quickLink, setQuickLink] = useState([]);
@@ -31,6 +37,8 @@ export default function Home(props: IHomeProps) {
   const [loadingShowMore, setLoadingShowMore] = useState(false);
 
   const [page, setPage] = useState(1);
+
+  const user = useAppSelector(selectUser);
 
   const size = 18;
 
@@ -52,6 +60,16 @@ export default function Home(props: IHomeProps) {
 
     getData();
   }, [page]);
+
+  useEffect(() => {
+    if (user) {
+      userApi.getWishListByUser(user.id).then((res: WishItem[]) => {
+        res.forEach((item) => {
+          dispatch(wishListActions.addWishList(item));
+        });
+      });
+    }
+  }, []);
 
   // useEffect(() => {
   //   const getDataQuickLink = async () => {

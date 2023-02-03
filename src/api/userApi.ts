@@ -1,5 +1,7 @@
 
+import { AxiosResponse } from "axios";
 import { axiosClientToken, axiosClient } from "./axiosClient";
+import { WishItem } from "models";
 
 const userApi = {
     putUpdateInfo: async (accessToken:string, params:any) => {
@@ -12,7 +14,12 @@ const userApi = {
         return res.data
     },
 
-    getWishListByUser: async (userId:string) => {
+    getWishList:async(params: Partial<WishItem>) => {
+        const res = await axiosClient.get('/wishList', {params})
+        return res.data
+    },
+
+    getWishListByUser: async(userId:string) => {
         const res = await axiosClient.get(`/wishList/${userId}`)
         return res.data
     },
@@ -22,7 +29,7 @@ const userApi = {
         return res.data
     },
 
-    deleteWishList: async (id:string) => {
+    deleteWishList: async (id:any) => {
         const res = await axiosClient.delete(`/wishList/${id}`)
         return res.data
     },
