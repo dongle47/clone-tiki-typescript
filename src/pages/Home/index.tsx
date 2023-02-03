@@ -69,24 +69,24 @@ export default function Home(props: IHomeProps) {
     getData();
   }, [page]);
 
-  useEffect(() => {
-    if (user) {
-      userApi.getWishListByUser(user.id).then((res: WishItem[]) => {
-        res.forEach((item) => {
-          dispatch(wishListActions.addWishList(item));
-        });
-      });
+  // useEffect(() => {
+  //   if (user) {
+  //     userApi.getWishListByUser(user.id).then((res: WishItem[]) => {
+  //       res.forEach((item) => {
+  //         dispatch(wishListActions.addWishList(item));
+  //       });
+  //     });
 
-      addressApi
-        .getAddressByUser(accessToken, user.id)
-        .then((res: Address[]) => {
-          res.forEach((item) => {
-            dispatch(addressListActions.addAddressItem(item));
-          });
-        })
-        .catch((err) => console.log("error", err));
-    }
-  }, []);
+  //     addressApi
+  //       .getAddressByUser(accessToken, user.id)
+  //       .then((res: Address[]) => {
+  //         res.forEach((item) => {
+  //           dispatch(addressListActions.addAddressItem(item));
+  //         });
+  //       })
+  //       .catch((err) => console.log("error", err));
+  //   }
+  // }, []);
 
   // useEffect(() => {
   //   const getDataQuickLink = async () => {
