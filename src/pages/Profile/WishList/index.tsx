@@ -6,13 +6,9 @@ import productApi from "api/productApi";
 import { CardProduct } from "components/Common";
 import { Product } from "models";
 
-// import CardProduct from "../../components/CardProduct";
-
 export interface IWishListProps {}
 
 export default function WishList(props: IWishListProps) {
-  //   const user = useSelector((state) => state.auth.user);
-
   const wishList = useAppSelector(selectWishList);
 
   const [myFavorites, setMyFavorites] = useState<any>([]);
