@@ -169,7 +169,15 @@ export default function CreateAddress(props: ICreateAddressProps) {
           setWardCode("");
           setAddressDetail("");
 
-          dispatch(addressListActions.addAddressItem(params));
+          if (user) {
+            addressApi
+              .getAddressByUser(accessToken, user.id)
+              .then((res: Address[]) => {
+                res.forEach((item) => {
+                  dispatch(addressListActions.addAddressItem(item));
+                });
+              });
+          }
         })
         .catch((error) => {
           toast.error("Thêm địa chỉ thất bại!");
@@ -213,6 +221,8 @@ export default function CreateAddress(props: ICreateAddressProps) {
       .putAddress(accessToken, params)
       .then((res) => {
         toast.success("Cập nhật thành công");
+
+        dispatch(addressListActions.updateItem(params));
       })
       .catch((error) => {
         toast.error("Cập nhật thất bại!");
