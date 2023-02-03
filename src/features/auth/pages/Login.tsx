@@ -29,6 +29,12 @@ import { Loading } from "components/Common";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authActions, selectLogging } from "../authSlice";
 import authApi from "api/authApi";
+import userApi from "api/userApi";
+import addressApi from "api/addressApi";
+import { wishListActions } from "features/wishList/wishListSlice";
+import { WishItem } from "models";
+import { Address } from "models/address";
+import { addressListActions } from "features/address/addressSlice";
 
 export interface ILoginProps {
   closeModalLogin: () => void;
@@ -69,6 +75,22 @@ export default function Login(props: ILoginProps) {
       .then((res) => {
         dispatch(authActions.loginSuccess(res));
         toast.success("Đăng nhập thành công");
+        console.log(res);
+        userApi.getWishListByUser(res.user.id).then((res: WishItem[]) => {
+          res.forEach((item) => {
+            dispatch(wishListActions.addWishList(item));
+          });
+        });
+
+        addressApi
+          .getAddressByUser(res.accessToken, res.user.id)
+          .then((res: Address[]) => {
+            res.forEach((item) => {
+              dispatch(addressListActions.addAddressItem(item));
+            });
+          })
+
+          .catch((err) => console.log("error", err));
         props.closeModalLogin();
       })
       .catch((error) => {

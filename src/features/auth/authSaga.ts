@@ -6,8 +6,12 @@ import { useAppSelector } from './../../app/hooks';
 import { call, delay, fork, put, take } from 'redux-saga/effects';
 
 
-export default function* authSaga(){
+function* handle(){
     yield take(authActions.logout.type)
     yield put(wishListActions.removeAll())
     yield put(addressListActions.removeAll())
+}
+
+export default function* authSaga(){
+    yield fork(handle)
 }
