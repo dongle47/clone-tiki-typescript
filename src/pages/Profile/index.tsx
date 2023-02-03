@@ -24,8 +24,8 @@ import {
 
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import CreateAddress from "./Addresses/CreateAddress";
-import Address from "./Addresses";
 import Addresses from "./Addresses";
+import Info from "./Info";
 
 // import Info from "./Info/index";
 // import Password from "./Info/Password";
@@ -121,8 +121,8 @@ export default function Profile(props: IProfileProps) {
               path="account/edit/*"
               element={
                 <Routes>
-                  {/* <Route index element={<Info />} />
-                  <Route path="pass" element={<Password />} /> */}
+                  <Route index element={<Info />} />
+                  {/* <Route path="pass" element={<Password />} /> */}
                 </Routes>
               }
             />
