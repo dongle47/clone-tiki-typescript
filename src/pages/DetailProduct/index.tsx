@@ -25,7 +25,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import productApi from "../../api/productApi";
 // import { addItem } from "../../slices/cartSlice";
 
-import { numWithCommas, roundPrice } from "../../constraints/Util";
+import { numWithCommas, roundPrice } from "../../utils/";
 
 import { toast } from "react-toastify";
 import { Product, WishItem } from "models";
