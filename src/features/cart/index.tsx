@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
 import { numWithCommas } from "../../utils";
+import { toast } from "react-toastify";
 
 import CardItem from "./CardItem";
 
@@ -99,13 +100,13 @@ export default function Cart(props: ICartProps) {
 
   // const handleCloseAddress = useCallback(() => setOpenAddress(false), []);
 
-  // const handleBuy = () => {
-  //   if (CartItems.filter((item) => item.choose).length === 0) {
-  //     toast.warning("Vui lòng chọn ít nhất một món hàng");
-  //   } else {
-  //     navigate("/payment");
-  //   }
-  // };
+  const handleBuy = () => {
+    if (CartItems.filter((item) => item.choose).length === 0) {
+      toast.warning("Vui lòng chọn ít nhất một món hàng");
+    } else {
+      navigate("/payment");
+    }
+  };
 
   return (
     <>
@@ -194,7 +195,7 @@ export default function Cart(props: ICartProps) {
 
               <Button
                 variant="contained"
-                // onClick={handleBuy}
+                onClick={handleBuy}
                 sx={{
                   width: "100%",
                   height: "42px",

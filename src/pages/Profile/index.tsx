@@ -27,6 +27,8 @@ import CreateAddress from "./Addresses/CreateAddress";
 import Addresses from "./Addresses";
 import Info from "./Info";
 import WishList from "./WishList";
+import Orders from "./Orders";
+import DetailOrder from "./Orders/DetailOrder";
 
 // import Info from "./Info/index";
 // import Password from "./Info/Password";
@@ -132,8 +134,8 @@ export default function Profile(props: IProfileProps) {
               path="order/*"
               element={
                 <Routes>
-                  {/* <Route path="history" element={<Orders />} />
-                  <Route path="detail/:id" element={<DetailOrder />} /> */}
+                  <Route path="history" element={<Orders />} />
+                  <Route path="detail/:id" element={<DetailOrder />} />
                 </Routes>
               }
             />

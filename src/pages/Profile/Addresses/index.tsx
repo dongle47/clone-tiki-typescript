@@ -1,4 +1,4 @@
-import { useAppSelector } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { selectAccessToken, selectUser } from "features/auth/authSlice";
 import { useEffect, useState } from "react";
 
@@ -11,42 +11,53 @@ import { toast } from "react-toastify";
 
 import "./Addresses.scss";
 import { Address } from "models/address";
+import {
+  addressListActions,
+  selectAddressList,
+} from "features/address/addressSlice";
 
 export interface IAddressProps {}
 
 export default function Addresses(props: IAddressProps) {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const accessToken = useAppSelector(selectAccessToken);
 
   const [itemDelete, setItemDelete] = useState<Address | null>(null);
-  const [addresses, setAddresses] = useState<Address[]>([]);
+  // const [addresses, setAddresses] = useState<Address[]>([]);
+  const addresses = useAppSelector(selectAddressList);
+
   const [dialogDelete, setDialogDelete] = useState(false);
 
   //get addresses
-  useEffect(() => {
-    const getData = async () => {
-      if (user) {
-        await addressApi
-          .getAddressByUser(accessToken, user.id)
-          .then((res) => {
-            setAddresses(res);
-            console.log(res);
-          })
-          .catch((err) => console.log("error", err));
-      }
-    };
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     if (user) {
+  //       await addressApi
+  //         .getAddressByUser(accessToken, user.id)
+  //         .then((res) => {
+  //           setAddresses(res);
+  //           console.log(res);
+  //         })
+  //         .catch((err) => console.log("error", err));
+  //     }
+  //   };
+  //   getData();
+  // }, []);
 
   const handleDelete = () => {
-    const newAddress = addresses.filter((item) => item._id !== itemDelete?._id);
-
     closeDialogDeleteAll();
+
     if (itemDelete) {
+      const newAddress = addresses.filter(
+        (item) => item._id !== itemDelete._id
+      );
+
       addressApi
-        .deleteAddress(accessToken, itemDelete?._id)
+        .deleteAddress(accessToken, itemDelete._id)
         .then((res) => {
-          setAddresses(newAddress);
+          dispatch(addressListActions.removeAddressItem(itemDelete));
+
           toast.success("Xóa thành công");
         })
         .catch((error) => {

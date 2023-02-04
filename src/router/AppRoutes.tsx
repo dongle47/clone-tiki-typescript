@@ -1,6 +1,7 @@
 import Cart from "features/cart";
 import DetailProduct from "pages/DetailProduct";
 import Home from "pages/Home";
+import Payment from "pages/Payment";
 import Profile from "pages/Profile";
 import * as React from "react";
 import { Routes, Route } from "react-router-dom";
@@ -14,6 +15,7 @@ export default function AppRoutes() {
 
       <Route path="product/:slug" element={<DetailProduct />} />
       <Route path="cart" element={<Cart />} />
+      <Route path="payment" element={<Payment />} />
     </Routes>
   );
 }

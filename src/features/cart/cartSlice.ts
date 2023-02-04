@@ -1,4 +1,3 @@
-import { removeItem } from 'utils';
 import { RootState } from './../../app/store';
 import { createSlice } from '@reduxjs/toolkit';
 
