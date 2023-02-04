@@ -23,12 +23,13 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
-import productApi from "../../../api/productApi";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { selectCart } from "features/cart/cartSlice";
 import Register from "features/auth/pages/Register";
 import Login from "features/auth/pages/Login";
 import { authActions, selectUser } from "features/auth/authSlice";
+
+import Search from "../../../features/search/";
 
 const privatePath = ["/customer/", "/admin/", "/payment"];
 
@@ -217,7 +218,7 @@ export function Header(props: IAppProps) {
         </Link>
 
         <Box sx={{ flex: 1 }} className="header__search">
-          <Stack
+          {/* <Stack
             direction="row"
             alignItems="center"
             sx={{ padding: "0", height: "40px", flex: 1, position: "relative" }}
@@ -232,7 +233,7 @@ export function Header(props: IAppProps) {
               debounceTimeout={500}
             />
 
-            {/* {focusSearch && (
+            {focusSearch && (
               <Search
                 handleSaveSearch={handleSaveSearch}
                 setSearchText={setSearchText}
@@ -240,7 +241,7 @@ export function Header(props: IAppProps) {
                 searchedItems={searchedItems}
                 searchText={searchText}
               />
-            )} */}
+            )}
 
             <Button
               sx={{
@@ -256,7 +257,8 @@ export function Header(props: IAppProps) {
             >
               Tìm kiếm
             </Button>
-          </Stack>
+          </Stack> */}
+          <Search />
         </Box>
 
         <Stack
