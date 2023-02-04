@@ -232,7 +232,9 @@ export default function CreateAddress(props: ICreateAddressProps) {
 
   return (
     <Box className="create-address" p={2} m={2}>
-      <Typography variant="h6">Tạo sổ địa chỉ</Typography>
+      <Typography variant="h6">
+        {props.edit ? "Chỉnh sửa địa chỉ" : "Tạo sổ địa chỉ"}
+      </Typography>
 
       <Stack p="2rem" spacing={1.875} width="80%">
         <Stack direction="row">

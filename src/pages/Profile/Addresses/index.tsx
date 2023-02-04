@@ -46,12 +46,15 @@ export default function Addresses(props: IAddressProps) {
   // }, []);
 
   const handleDelete = () => {
-    const newAddress = addresses.filter((item) => item._id !== itemDelete?._id);
-
     closeDialogDeleteAll();
+
     if (itemDelete) {
+      const newAddress = addresses.filter(
+        (item) => item._id !== itemDelete._id
+      );
+
       addressApi
-        .deleteAddress(accessToken, itemDelete?._id)
+        .deleteAddress(accessToken, itemDelete._id)
         .then((res) => {
           dispatch(addressListActions.removeAddressItem(itemDelete));
 
