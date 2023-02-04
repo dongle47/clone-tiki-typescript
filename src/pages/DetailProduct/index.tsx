@@ -40,6 +40,7 @@ import {
   wishListActions,
 } from "features/wishList/wishListSlice";
 import { usePreviousMonthDisabled } from "@mui/x-date-pickers/internals";
+import ReviewProduct from "./ReviewProduct";
 
 export interface IDetailProductProps {}
 
@@ -471,7 +472,7 @@ export default function DetailProduct(props: IDetailProductProps) {
         </Box>
       </Modal>
 
-      {/* <ReviewProduct product={product} /> */}
+      <ReviewProduct product={product} />
     </>
   );
 }
