@@ -30,6 +30,7 @@ import WishList from "./WishList";
 import Orders from "./Orders";
 import DetailOrder from "./Orders/DetailOrder";
 import ReviewPurchased from "./ReviewPurchased";
+import ReviewList from "./ReviewList";
 
 // import Info from "./Info/index";
 // import Password from "./Info/Password";
@@ -167,7 +168,7 @@ export default function Profile(props: IProfileProps) {
 
             <Route path="/wishlist" element={<WishList />} />
 
-            {/* <Route path="/review" element={<MyReview />} /> */}
+            <Route path="/review" element={<ReviewList />} />
           </Routes>
         </Box>
       </Box>
