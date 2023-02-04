@@ -79,7 +79,7 @@ export default function ReviewPurchased(props: IReviewPurchasedProps) {
       });
     };
     checkReviewed();
-  }, []);
+  }, [myRevPurchaseds]);
 
   const handleChange = (event: any, value: any) => {
     setPage(value);
