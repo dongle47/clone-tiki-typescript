@@ -1,6 +1,6 @@
 import Cart from "features/cart";
 import DetailProduct from "pages/DetailProduct";
-import FilterProduct from "pages/Filter";
+import FilterProduct from "pages/FilterProduct";
 import Home from "pages/Home";
 import Payment from "pages/Payment";
 import Profile from "pages/Profile";
