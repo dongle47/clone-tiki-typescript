@@ -1,5 +1,15 @@
-import { Autocomplete, Button, Stack, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+  Box,
+  IconButton,
+} from "@mui/material";
 import React, { useEffect, useState, useCallback } from "react";
+
+import { Link } from "react-router-dom";
 
 import { DebounceInput } from "react-debounce-input";
 
@@ -20,12 +30,18 @@ export default function Search(props: ISearchProps) {
 
   const [searchText, setSearchText] = useState("");
 
+  const [suggestions, setSuggestions] = useState([]);
+
   const [focusSearch, setFocusSearch] = useState(false);
 
   const [expandSearch, setExpandSearch] = useState(false);
 
   const onChangeSearch = (event: any) => {
     setSearchText(event.target.value);
+  };
+
+  const handleRemoveSearch = (slug: string) => {
+    dispatch(searchActions.removeItem(slug));
   };
 
   useEffect(() => {
@@ -54,6 +70,28 @@ export default function Search(props: ISearchProps) {
     // navigate(`search/${obj.slug}`);
   };
 
+  const SearchedItems = searchedItems
+    .slice(0, 5)
+    .map((item) => (
+      <SearchedItem
+        text={item.searchText}
+        slug={item.slug}
+        type={item.type}
+        handleRemoveSearch={handleRemoveSearch}
+      />
+    ));
+
+  // const SuggestItems = suggestions
+  //   .slice(0, 5)
+  //   .map((item) => (
+  //     <SuggestItem
+  //       handleClickSuggestItem={handleClickSuggestItem}
+  //       setSearchText={props.setSearchText}
+  //       text={item.name}
+  //       slug={item.slug}
+  //     />
+  //   ));
+
   return (
     <Stack
       direction="row"
@@ -80,6 +118,9 @@ export default function Search(props: ISearchProps) {
           id="input-search-result"
           className="header-search__result"
         >
+          {searchText === "" && SearchedItems}
+          {/* {searchText === "" ? <SearchedItems /> : SuggestItems} */}
+
           <Button
             onClick={() => setExpandSearch((prev) => !prev)}
             variant="text"
@@ -107,5 +148,70 @@ export default function Search(props: ISearchProps) {
         Tìm kiếm
       </Button>
     </Stack>
+  );
+}
+
+interface ISearchItemProp {
+  slug: string;
+  text: string;
+  type: "filter" | "product";
+  handleRemoveSearch: (slug: string) => void;
+}
+
+function SearchedItem(props: ISearchItemProp) {
+  return (
+    <Stack
+      className="item-search"
+      sx={{ height: "2.5rem" }}
+      direction="row"
+      spacing={2}
+      alignItems="center"
+    >
+      <HistoryIcon fontSize="medium" sx={{ color: "silver" }} />
+
+      <Link style={{ flex: 1 }} to={`search/${props.slug}`}>
+        <Typography
+          sx={{ fontSize: "0.8rem", fontWeight: 500 }}
+          className="text-overflow-1-lines"
+          variant="subtitle2"
+          // onClick={() => props.setSearchText(props.text)}
+        >
+          {props.text}
+        </Typography>
+      </Link>
+
+      <IconButton onClick={() => props.handleRemoveSearch(props.slug)}>
+        <ClearIcon sx={{ color: "silver" }}></ClearIcon>
+      </IconButton>
+    </Stack>
+  );
+}
+
+function SuggestItem(props: ISearchItemProp) {
+  let obj = {
+    text: props.text,
+    slug: props.slug,
+  };
+  return (
+    <Link to={`/product/${props.slug}`}>
+      <Stack
+        className="item-search"
+        sx={{ height: "2.5rem" }}
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        // onClick={() => props.handleClickSuggestItem(obj)}
+      >
+        <SearchIcon fontSize="medium" sx={{ color: "silver" }} />
+
+        <Typography
+          className="text-overflow-1-lines"
+          variant="subtitle2"
+          sx={{ fontSize: "0.8rem", fontWeight: 500, flex: 1 }}
+        >
+          {props.text}
+        </Typography>
+      </Stack>
+    </Link>
   );
 }
