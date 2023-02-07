@@ -23,12 +23,14 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
-import productApi from "../../../api/productApi";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { selectCart } from "features/cart/cartSlice";
 import Register from "features/auth/pages/Register";
 import Login from "features/auth/pages/Login";
 import { authActions, selectUser } from "features/auth/authSlice";
+
+import Search from "../../../features/search/";
+import { SearchState, selectSearch } from "features/search/searchSlice";
 
 const privatePath = ["/customer/", "/admin/", "/payment"];
 
@@ -40,7 +42,6 @@ export function Header(props: IAppProps) {
   const dispatch = useAppDispatch();
 
   // const searchedItems = useSelector((state: any) => state.search.items);
-  const searchedItems = "";
 
   const [searchText, setSearchText] = useState("");
 
@@ -50,12 +51,13 @@ export function Header(props: IAppProps) {
 
   const handleSubmitSearch = () => {
     // dispatch(removeAll());
-    let obj = {
-      text: searchText,
+    let obj: SearchState = {
+      searchText: searchText,
       slug: searchText.replace(/\s/g, "-"),
+      type: "filter",
     };
     handleSaveSearch(obj);
-    navigate(`search/${obj.slug}`);
+    // navigate(`search/${obj.slug}`);
   };
 
   useEffect(() => {
@@ -172,21 +174,6 @@ export function Header(props: IAppProps) {
     setIsLoginForm(false);
   }, []);
 
-  // useEffect(() => {
-  //   document.addEventListener("click", (event) => {
-  //     const searchResultElement = document.getElementById(
-  //       "input-search-result"
-  //     );
-  //     if (searchResultElement) {
-  //       const isClickInsideElement = searchResultElement.contains(event.target);
-  //       if (!isClickInsideElement && event.target.id !== "input-search") {
-  //         setFocusSearch(false);
-  //       }
-  //     }
-  //   });
-  //   return () => document.removeEventListener("click", () => {});
-  // }, []);
-
   return (
     <header className="header">
       <Stack
@@ -217,46 +204,7 @@ export function Header(props: IAppProps) {
         </Link>
 
         <Box sx={{ flex: 1 }} className="header__search">
-          <Stack
-            direction="row"
-            alignItems="center"
-            sx={{ padding: "0", height: "40px", flex: 1, position: "relative" }}
-          >
-            <DebounceInput
-              style={{ height: "100%", flex: 1 }}
-              id="input-search"
-              placeholder="Tìm sản phẩm, danh mục hay thương hiệu mong muốn ..."
-              onFocus={() => setFocusSearch(true)}
-              value={searchText}
-              onChange={onChangeSearch}
-              debounceTimeout={500}
-            />
-
-            {/* {focusSearch && (
-              <Search
-                handleSaveSearch={handleSaveSearch}
-                setSearchText={setSearchText}
-                suggestions={filteredSuggestions}
-                searchedItems={searchedItems}
-                searchText={searchText}
-              />
-            )} */}
-
-            <Button
-              sx={{
-                height: "100%",
-                width: "8rem",
-                backgroundColor: "#0D5CB6",
-                borderTopLeftRadius: "0",
-                borderBottomLeftRadius: "0",
-              }}
-              variant="contained"
-              startIcon={<SearchIcon />}
-              // onClick={() => handleSubmitSearch(searchText)}
-            >
-              Tìm kiếm
-            </Button>
-          </Stack>
+          <Search />
         </Box>
 
         <Stack

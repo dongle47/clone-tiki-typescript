@@ -17,6 +17,7 @@ import storage from 'redux-persist/lib/storage'
 import authReducer from 'features/auth/authSlice';
 import wishListReducer from 'features/wishList/wishListSlice';
 import addressReducer from 'features/address/addressSlice';
+import searchReducer from 'features/search/searchSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   wishList: wishListReducer,
   addressList: addressReducer,
+  search: searchReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

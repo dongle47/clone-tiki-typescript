@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Rating from "@mui/material/Rating";
 import Pagination from "@mui/material/Pagination";
-import { useSelector } from "react-redux";
 import StoreIcon from "@mui/icons-material/Store";
 import reviewsApi from "api/reviewApi";
 import { useAppSelector } from "app/hooks";
