@@ -21,6 +21,11 @@ const productApi = {
         const res = await axiosClient.get('/products/filter', { params })
         return res.data;
     },
+
+    getProducts: async (params:any) => {
+        const res = await axiosClient.get('/products', { params })
+        return res.data;
+    },
 }
 
 export default productApi

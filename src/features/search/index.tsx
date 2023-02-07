@@ -20,6 +20,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import HistoryIcon from "@mui/icons-material/History";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { SearchState, searchActions, selectSearch } from "./searchSlice";
+import productApi from "api/productApi";
 
 export interface ISearchProps {}
 
@@ -36,6 +37,30 @@ export default function Search(props: ISearchProps) {
   const [focusSearch, setFocusSearch] = useState(false);
 
   const [expandSearch, setExpandSearch] = useState(false);
+
+  useEffect(() => {
+    const getSuggestions = async () => {
+      let param = {
+        // page: 1,
+        size: 100,
+      };
+      await productApi.getProducts(param).then((res) => {
+        setSuggestions(res.products);
+      });
+    };
+    getSuggestions();
+  }, []);
+
+  useEffect(() => {
+    if (searchText) {
+      const filter = suggestions.filter((item: any) =>
+        item.slug.includes(searchText.replace(/\s/g, "-"))
+      );
+
+      setSuggestions(filter);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchText]);
 
   const onChangeSearch = (event: any) => {
     setSearchText(event.target.value);
@@ -71,6 +96,16 @@ export default function Search(props: ISearchProps) {
     navigate(`filter/${obj.slug}`);
   };
 
+  const handleClickSuggestItem = (data: any) => {
+    let obj: SearchState = {
+      searchText: data.text,
+      slug: data.slug,
+      type: "product",
+    };
+
+    dispatch(searchActions.addItem(obj));
+  };
+
   const SearchedItems = searchedItems
     .slice(0, 5)
     .map((item) => (
@@ -82,16 +117,15 @@ export default function Search(props: ISearchProps) {
       />
     ));
 
-  // const SuggestItems = suggestions
-  //   .slice(0, 5)
-  //   .map((item) => (
-  //     <SuggestItem
-  //       handleClickSuggestItem={handleClickSuggestItem}
-  //       setSearchText={props.setSearchText}
-  //       text={item.name}
-  //       slug={item.slug}
-  //     />
-  //   ));
+  const SuggestItems = suggestions
+    .slice(0, 5)
+    .map((item: any) => (
+      <SuggestItem
+        handleClickSuggestItem={handleClickSuggestItem}
+        text={item.name}
+        slug={item.slug}
+      />
+    ));
 
   return (
     <Stack
@@ -119,8 +153,8 @@ export default function Search(props: ISearchProps) {
           id="input-search-result"
           className="header-search__result"
         >
-          {searchText === "" && SearchedItems}
-          {/* {searchText === "" ? <SearchedItems /> : SuggestItems} */}
+          {/* {searchText === "" && SearchedItems} */}
+          {searchText === "" ? SearchedItems : SuggestItems}
 
           <Button
             onClick={() => setExpandSearch((prev) => !prev)}
@@ -188,7 +222,13 @@ function SearchedItem(props: ISearchItemProp) {
   );
 }
 
-function SuggestItem(props: ISearchItemProp) {
+interface ISuggestionsItemProp {
+  text: string;
+  slug: string;
+  handleClickSuggestItem: (data: any) => void;
+}
+
+function SuggestItem(props: ISuggestionsItemProp) {
   let obj = {
     text: props.text,
     slug: props.slug,
@@ -201,7 +241,7 @@ function SuggestItem(props: ISearchItemProp) {
         direction="row"
         spacing={2}
         alignItems="center"
-        // onClick={() => props.handleClickSuggestItem(obj)}
+        onClick={() => props.handleClickSuggestItem(obj)}
       >
         <SearchIcon fontSize="medium" sx={{ color: "silver" }} />
 

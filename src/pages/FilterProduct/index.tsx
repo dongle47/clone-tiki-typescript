@@ -32,6 +32,8 @@ export default function FilterProduct(props: IFilterProductProps) {
 
   const searchText = useParams().slug;
 
+  const [notFound, setNotFound] = useState(false);
+
   const [valuePrice, setValuePrice] = useState([0, 100]);
 
   const [value, setValue] = useState(0);
@@ -53,6 +55,9 @@ export default function FilterProduct(props: IFilterProductProps) {
       await productApi.getFilterProducts(param).then((res) => {
         setIsLoading(false);
         setFilteredProducts(res);
+        if (filteredProducts.length <= 0) {
+          setNotFound(true);
+        }
       });
     };
     getSuggestions();
@@ -167,6 +172,8 @@ export default function FilterProduct(props: IFilterProductProps) {
         </Box>
 
         <Box>
+          {notFound && "Không tìm thấy kết quả"}
+
           {isLoading ? (
             <Box sx={{ width: "100%", height: "100%" }}>
               <CircularProgress />
