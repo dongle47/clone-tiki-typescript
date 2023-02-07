@@ -30,6 +30,7 @@ import Login from "features/auth/pages/Login";
 import { authActions, selectUser } from "features/auth/authSlice";
 
 import Search from "../../../features/search/";
+import { SearchState, selectSearch } from "features/search/searchSlice";
 
 const privatePath = ["/customer/", "/admin/", "/payment"];
 
@@ -41,7 +42,6 @@ export function Header(props: IAppProps) {
   const dispatch = useAppDispatch();
 
   // const searchedItems = useSelector((state: any) => state.search.items);
-  const searchedItems = "";
 
   const [searchText, setSearchText] = useState("");
 
@@ -51,12 +51,13 @@ export function Header(props: IAppProps) {
 
   const handleSubmitSearch = () => {
     // dispatch(removeAll());
-    let obj = {
-      text: searchText,
+    let obj: SearchState = {
+      searchText: searchText,
       slug: searchText.replace(/\s/g, "-"),
+      type: "filter",
     };
     handleSaveSearch(obj);
-    navigate(`search/${obj.slug}`);
+    // navigate(`search/${obj.slug}`);
   };
 
   useEffect(() => {

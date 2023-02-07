@@ -26,7 +26,7 @@ const searchSlice = createSlice({
             const slugDel = action.payload
             state = state.filter(item => item.slug !== slugDel)
             return state
-        }
+        },
     }
 })
 
@@ -34,7 +34,7 @@ const searchSlice = createSlice({
 export const searchActions = searchSlice.actions
 
 //selector
-export const search = (state:RootState) => state.search 
+export const selectSearch = (state:RootState) => state.search 
 
 //reducer
 const searchReducer = searchSlice.reducer

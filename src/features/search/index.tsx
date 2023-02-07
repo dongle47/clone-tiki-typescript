@@ -8,14 +8,15 @@ import ClearIcon from "@mui/icons-material/Clear";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import HistoryIcon from "@mui/icons-material/History";
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { SearchState, searchActions, selectSearch } from "./searchSlice";
 
 export interface ISearchProps {}
 
 export default function Search(props: ISearchProps) {
   const dispatch = useAppDispatch();
 
-  const searchedItems = "";
+  const searchedItems = useAppSelector(selectSearch);
 
   const [searchText, setSearchText] = useState("");
 
@@ -42,6 +43,16 @@ export default function Search(props: ISearchProps) {
     });
     return () => document.removeEventListener("click", () => {});
   }, []);
+
+  const handleSubmitSearch = () => {
+    let obj: SearchState = {
+      searchText: searchText,
+      slug: searchText.replace(/\s/g, "-"),
+      type: "filter",
+    };
+    dispatch(searchActions.addItem(obj));
+    // navigate(`search/${obj.slug}`);
+  };
 
   return (
     <Stack
@@ -91,7 +102,7 @@ export default function Search(props: ISearchProps) {
         }}
         variant="contained"
         startIcon={<SearchIcon />}
-        // onClick={() => handleSubmitSearch(searchText)}
+        onClick={handleSubmitSearch}
       >
         Tìm kiếm
       </Button>

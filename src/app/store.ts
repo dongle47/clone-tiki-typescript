@@ -17,7 +17,7 @@ import storage from 'redux-persist/lib/storage'
 import authReducer from 'features/auth/authSlice';
 import wishListReducer from 'features/wishList/wishListSlice';
 import addressReducer from 'features/address/addressSlice';
-import searchReducer, { search } from 'features/search/searchSlice';
+import searchReducer from 'features/search/searchSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
