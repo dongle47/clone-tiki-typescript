@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState, useCallback } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { DebounceInput } from "react-debounce-input";
 
@@ -24,6 +24,7 @@ import { SearchState, searchActions, selectSearch } from "./searchSlice";
 export interface ISearchProps {}
 
 export default function Search(props: ISearchProps) {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const searchedItems = useAppSelector(selectSearch);
@@ -67,7 +68,7 @@ export default function Search(props: ISearchProps) {
       type: "filter",
     };
     dispatch(searchActions.addItem(obj));
-    // navigate(`search/${obj.slug}`);
+    navigate(`filter/${obj.slug}`);
   };
 
   const SearchedItems = searchedItems
