@@ -15,7 +15,12 @@ const productApi = {
     getBySlug: async (slug: string) => {
         const res = await axiosClient.get(`/products/${slug}`)
         return res.data[0]
-    }
+    },
+
+    getFilterProducts: async (params:any) => {
+        const res = await axiosClient.get('/products/filter', { params })
+        return res.data;
+    },
 }
 
 export default productApi
